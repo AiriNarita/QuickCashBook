@@ -5,13 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/webhook")
+@RequestMapping("webhook")
 class QuickCashBookController {
 
-    @PostMapping("/")
-    fun messsagePost(){
+    @PostMapping()
+    fun messsagePost(): String {
+        return ""
     }
-
-
-
 }
