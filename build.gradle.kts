@@ -33,6 +33,8 @@ dependencies {
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	// line-bot用追加
+	implementation("com.linecorp.bot:line-bot-spring-boot-handler:8.1.0")
 }
 
 tasks.withType<KotlinCompile> {
