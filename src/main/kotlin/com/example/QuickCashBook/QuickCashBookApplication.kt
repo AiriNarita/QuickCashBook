@@ -25,7 +25,7 @@ open class QuickCashBookApplication(private val messagingApiClient: MessagingApi
 		println("event: $event")
 		val message = event.message
 		if (message is TextMessageContent) {
-			val originalMessageText = message.text + "airi!!!!"
+			val originalMessageText = message.text + "と、送信されました！"
 			messagingApiClient.replyMessage(
 				ReplyMessageRequest(
 					event.replyToken,
