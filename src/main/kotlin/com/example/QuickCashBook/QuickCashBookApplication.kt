@@ -1,5 +1,6 @@
 package com.example.QuickCashBook
 
+import MessagesService.MessagesService
 import com.linecorp.bot.messaging.client.MessagingApiClient
 import com.linecorp.bot.messaging.model.ReplyMessageRequest
 import com.linecorp.bot.messaging.model.TextMessage
@@ -17,7 +18,9 @@ fun main(args: Array<String>) {
 
 @SpringBootApplication
 @LineMessageHandler
-open class QuickCashBookApplication(private val messagingApiClient: MessagingApiClient) {
+open class QuickCashBookApplication(
+	private val messagingApiClient: MessagingApiClient
+) {
 //	private val log = LoggerFactory.getLogger(EchoApplication::class.java)
 
 	@EventMapping
