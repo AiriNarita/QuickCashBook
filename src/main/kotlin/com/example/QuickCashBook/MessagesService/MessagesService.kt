@@ -1,4 +1,4 @@
-package MessagesService
+package com.example.QuickCashBook.MessagesService
 
 import org.springframework.stereotype.Service
 
