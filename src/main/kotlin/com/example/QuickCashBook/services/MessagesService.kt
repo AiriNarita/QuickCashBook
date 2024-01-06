@@ -21,6 +21,8 @@ class MessagesService {
 
     /**
      * 数字が含まれていた場合、メッセージから数字だけを抽出して返す
+     * @param text メッセージ
+     * @return 数字のみに変換した文字列
      */
     fun extractNumbers(text: String): String {
         return text.filter { it.isDigit() }
