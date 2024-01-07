@@ -25,14 +25,14 @@ open class QuickCashBookApplication(
 ) {
     //	private val log = LoggerFactory.getLogger(EchoApplication::class.java)
 
-    @EventMapping
-    fun handlePostBack(event: PostbackEvent?): Message {
-        when (event?.postback?.data.toString()) {
-            "A" -> return TextMessage("AAAA！")
-            "B" -> return TextMessage("BBBB")
-        }
-        return TextMessage("?")
-    }
+//    @EventMapping
+//    fun handlePostBack(event: PostbackEvent?): Message {
+//        when (event?.postback?.data.toString()) {
+//            "A" -> return TextMessage("AAAA！")
+//            "B" -> return TextMessage("BBBB")
+//        }
+//        return TextMessage("?")
+//    }
 
     // recursive
     @EventMapping
@@ -43,34 +43,39 @@ open class QuickCashBookApplication(
             val originalMessageText = message.text + "円ですね！"
             val originalProposalMessage = "金額を教えてね"
 
-            if (!messagesService.containsNumber(message.text)) {
-                messagingApiClient.replyMessage(
-                    ReplyMessageRequest(
-                        event.replyToken,
-                        listOf(TextMessage(originalProposalMessage)),
-                        false
-                    )
-                )
-                return
+            val replyMessage = if (!messagesService.containsNumber(message.text)) {
+                // メッセージに数字が含まれていない場合
+                "$originalProposalMessage"
+            } else {
+                val numbersOnly = messagesService.extractNumbers(originalMessageText)
+                "$numbersOnly"+"円ですね！"
             }
-
-            val numbersOnly = messagesService.extractNumbers(originalMessageText)
-
-            val confirmTemplate = ConfirmTemplate(
-                "￥" + "$numbersOnly" + "は何のジャンル？",
-                listOf(
-                    PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null),
-                    PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null),
-                )
-            )
 
             messagingApiClient.replyMessage(
                 ReplyMessageRequest(
                     event.replyToken,
-                    listOf(TemplateMessage("質問だよ", confirmTemplate)),
+                    listOf(TextMessage("$replyMessage")),
                     false
                 )
             )
+
+//            val numbersOnly = messagesService.extractNumbers(originalMessageText)
+//
+//            val confirmTemplate = ConfirmTemplate(
+//                "￥" + "$numbersOnly" + "は何のジャンル？",
+//                listOf(
+//                    PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null),
+//                    PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null),
+//                )
+//            )
+//
+//            messagingApiClient.replyMessage(
+//                ReplyMessageRequest(
+//                    event.replyToken,
+//                    listOf(TemplateMessage("質問だよ", confirmTemplate)),
+//                    false
+//                )
+//            )
         }
     }
 
