@@ -7,10 +7,10 @@ import com.linecorp.bot.spring.boot.handler.annotation.EventMapping
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
 import com.linecorp.bot.webhook.model.Event
 import com.linecorp.bot.webhook.model.MessageEvent
+import com.linecorp.bot.webhook.model.PostbackEvent
 import com.linecorp.bot.webhook.model.TextMessageContent
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-
 
 
 fun main(args: Array<String>) {
@@ -24,6 +24,17 @@ open class QuickCashBookApplication(
     private val messagesService: MessagesService
 ) {
     //	private val log = LoggerFactory.getLogger(EchoApplication::class.java)
+
+    @EventMapping
+    fun handlePostBack(event: PostbackEvent?): Message {
+        when (event?.postback?.data.toString()) {
+            "A" -> return TextMessage("AAAA！")
+            "B" -> return TextMessage("BBBB")
+        }
+        return TextMessage("?")
+    }
+
+    // recursive
     @EventMapping
     fun handleTextMessageEvent(event: MessageEvent) {
         println("event: $event")
@@ -32,34 +43,31 @@ open class QuickCashBookApplication(
             val originalMessageText = message.text + "円ですね！"
             val originalProposalMessage = "金額を教えてね"
 
-
-            val replyMessage = if (messagesService.containsNumber(message.text)) {
-                // メッセージに数字が含まれている場合
-                val numbersOnly = messagesService.extractNumbers(originalMessageText)
-                "$numbersOnly" + "円ですね！"
-            } else {
-                // メッセージに数字が含まれていない場合
-                "$originalProposalMessage"
+            if (!messagesService.containsNumber(message.text)) {
+                messagingApiClient.replyMessage(
+                    ReplyMessageRequest(
+                        event.replyToken,
+                        listOf(TextMessage(originalProposalMessage)),
+                        false
+                    )
+                )
+                return
             }
 
-            //val textMessage = TextMessage(replyMessage)
+            val numbersOnly = messagesService.extractNumbers(originalMessageText)
 
-//            val actions = listOf(
-//                URIAction(
-//                    "連携する",
-//                    URI.create("https://www.lycorp.co.jp/ja/"), null
-//                )
-//            )
-//            val templateMessage = TemplateMessage(
-//                "アカウント連携",
-//                ButtonsTemplate(null, null, null, null, "TEST TITLE", "TEST TEXT", actions.get(0), actions)
-//            )
-//
+            val confirmTemplate = ConfirmTemplate(
+                "￥" + "$numbersOnly" + "は何のジャンル？",
+                listOf(
+                    PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null),
+                    PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null),
+                )
+            )
 
             messagingApiClient.replyMessage(
                 ReplyMessageRequest(
                     event.replyToken,
-                    listOf(TextMessage(replyMessage)),
+                    listOf(TemplateMessage("質問だよ", confirmTemplate)),
                     false
                 )
             )
