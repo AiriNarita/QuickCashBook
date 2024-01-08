@@ -29,7 +29,7 @@ open class QuickCashBookApplication(
     @EventMapping
     fun handlePostBack(event: PostbackEvent?): Message {
 
-        // FOOD
+        // FOOD details
         // A?price=${message.text}&genre=food
         // [0] : A
         // [1] : price=2000&genre=food&detail=external
@@ -46,7 +46,6 @@ open class QuickCashBookApplication(
         val Food_C_Action = PostbackAction("コンビニ", "コンビニ", "コンビニ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
         val Food_D_Action = PostbackAction("カフェ", "カフェ", "カフェ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
 
-        //　ここをbutton templateに変えたい
         val foodButtonTemplate = ButtonsTemplate(
             URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
             "食費項目", "ひとつ選んでね",
@@ -59,15 +58,46 @@ open class QuickCashBookApplication(
             )
         )
 
+        // food detail button
+        val Life_A_Action = PostbackAction("生活用品",
+            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=needGoods",
+            "生活用品(雑貨。ex.さら、キッチン用具)",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+        val Life_B_Action = PostbackAction("日用消耗品", "日用消耗品", "日用消耗品", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Life_C_Action = PostbackAction("その他", "その他", "その他", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Life_D_Action = PostbackAction("衣類", "衣類", "衣類", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+
+        val lifeButtonTemplate = ButtonsTemplate(
+            URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
+            "生活費項目", "ひとつ選んでね",
+            null,
+            listOf(
+                Life_A_Action,
+                Life_B_Action,
+                Life_C_Action,
+                Life_D_Action,
+            )
+        )
+
+
         when (event?.postback?.data.toString().split("?")[0]) {
             "A" -> return TemplateMessage("食費の項目は？", foodButtonTemplate)
-            "B" -> return TextMessage("BBBB")
-            "C" -> return TextMessage("CCCC")
+            "B" -> return TextMessage("交通費")
+            "C" -> return TemplateMessage("生活費は何？",lifeButtonTemplate)
             "D" -> return TextMessage("DDDD")
             // food_final?price=2000&genre=food&detail=external
             // [0] : food_final
             // [1] : price=2000&genre=food&detail=external
             "food_final" -> {
+                val template = event?.postback?.data.toString().split("?")[1]
+                println(template)
+                // dbに入れる
+                return TextMessage("保存したよ！$template")
+            }
+            "life_final" -> {
                 val template = event?.postback?.data.toString().split("?")[1]
                 println(template)
                 // dbに入れる
@@ -88,6 +118,7 @@ open class QuickCashBookApplication(
             val originalMessageText = message.text + "円ですね！"
             val originalProposalMessage = "金額を教えてね"
 
+            //TODO: 修復が必要
             val replyMessage = if (!messagesService.containsNumber(message.text)) {
                 // メッセージに数字が含まれていない場合
                 "$originalProposalMessage"
@@ -97,6 +128,7 @@ open class QuickCashBookApplication(
             }
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
+            // ジャンル選択①
             val A_Action = PostbackAction(
                 "食費",
                 "A?price=${message.text}&genre=food",
@@ -106,7 +138,14 @@ open class QuickCashBookApplication(
                 null
             )
             val B_Action = PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null)
-            val C_Action = PostbackAction("生活費", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val C_Action = PostbackAction(
+                "生活費(ex.日常用品、消耗品、服)",
+                "C?price=${message.text}&genre=life",
+                "C",
+                null,
+                PostbackAction.InputOption.OPENKEYBOARD,
+                null
+            )
             val D_Action = PostbackAction("そのほか", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
 
             //　ここをbutton templateに変えたい
