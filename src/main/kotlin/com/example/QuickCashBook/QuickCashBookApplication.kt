@@ -46,15 +46,12 @@ open class QuickCashBookApplication(
             val originalMessageText = message.text + "円ですね！"
             val originalProposalMessage = "金額を教えてね"
 
-            if (!messagesService.containsNumber(message.text)) {
-                messagingApiClient.replyMessage(
-                    ReplyMessageRequest(
-                        event.replyToken,
-                        listOf(TextMessage(originalProposalMessage)),
-                        false
-                    )
-                )
-                return
+            val replyMessage = if (!messagesService.containsNumber(message.text)) {
+                // メッセージに数字が含まれていない場合
+                "$originalProposalMessage"
+            } else {
+                val numbersOnly = messagesService.extractNumbers(originalMessageText)
+                "$numbersOnly"+"円ですね！"
             }
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
@@ -80,9 +77,7 @@ open class QuickCashBookApplication(
                 ReplyMessageRequest(
                     event.replyToken,
                     listOf(TemplateMessage("質問だよ", buttonTemplate)),
-                    false
-                )
-            )
+
         }
     }
 
