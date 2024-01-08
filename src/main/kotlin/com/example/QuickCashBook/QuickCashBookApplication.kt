@@ -11,6 +11,7 @@ import com.linecorp.bot.webhook.model.PostbackEvent
 import com.linecorp.bot.webhook.model.TextMessageContent
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import java.net.URI
 
 
 fun main(args: Array<String>) {
@@ -25,14 +26,16 @@ open class QuickCashBookApplication(
 ) {
     //	private val log = LoggerFactory.getLogger(EchoApplication::class.java)
 
-//    @EventMapping
-//    fun handlePostBack(event: PostbackEvent?): Message {
-//        when (event?.postback?.data.toString()) {
-//            "A" -> return TextMessage("AAAA！")
-//            "B" -> return TextMessage("BBBB")
-//        }
-//        return TextMessage("?")
-//    }
+    @EventMapping
+    fun handlePostBack(event: PostbackEvent?): Message {
+        when (event?.postback?.data.toString()) {
+            "A" -> return TextMessage("AAAA！")
+            "B" -> return TextMessage("BBBB")
+            "C" -> return TextMessage("CCCC")
+            "D" -> return TextMessage("DDDD")
+        }
+        return TextMessage("?")
+    }
 
     // recursive
     @EventMapping
@@ -51,31 +54,30 @@ open class QuickCashBookApplication(
                 "$numbersOnly"+"円ですね！"
             }
 
-            messagingApiClient.replyMessage(
-                ReplyMessageRequest(
-                    event.replyToken,
-                    listOf(TextMessage("$replyMessage")),
-                    false
+            val numbersOnly = messagesService.extractNumbers(originalMessageText)
+            val A_Action = PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val B_Action = PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val C_Action = PostbackAction("生活費", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val D_Action = PostbackAction("そのほか", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+
+            //　ここをbutton templateに変えたい
+            val buttonTemplate = ButtonsTemplate(
+                URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
+                "￥" + "$numbersOnly" + "は何のジャンル？", "ひとつ選んでね",
+                null,
+                listOf(
+                    A_Action,
+                    B_Action,
+                    C_Action,
+                    D_Action,
                 )
             )
 
-//            val numbersOnly = messagesService.extractNumbers(originalMessageText)
-//
-//            val confirmTemplate = ConfirmTemplate(
-//                "￥" + "$numbersOnly" + "は何のジャンル？",
-//                listOf(
-//                    PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null),
-//                    PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null),
-//                )
-//            )
-//
-//            messagingApiClient.replyMessage(
-//                ReplyMessageRequest(
-//                    event.replyToken,
-//                    listOf(TemplateMessage("質問だよ", confirmTemplate)),
-//                    false
-//                )
-//            )
+            messagingApiClient.replyMessage(
+                ReplyMessageRequest(
+                    event.replyToken,
+                    listOf(TemplateMessage("質問だよ", buttonTemplate)),
+
         }
     }
 
