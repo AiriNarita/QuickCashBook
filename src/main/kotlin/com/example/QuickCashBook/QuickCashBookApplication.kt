@@ -28,12 +28,54 @@ open class QuickCashBookApplication(
 
     @EventMapping
     fun handlePostBack(event: PostbackEvent?): Message {
-        when (event?.postback?.data.toString()) {
-            "A" -> return TextMessage("AAAA！")
+
+        // FOOD
+        // A?price=${message.text}&genre=food
+        // [0] : A
+        // [1] : price=2000&genre=food&detail=external
+        // result : final?price=2000&genre=food&detail=external
+        val Food_A_Action = PostbackAction(
+            "外食",
+            "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=external",
+            "外食",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+        val Food_B_Action = PostbackAction("スーパー", "スーパー", "スーパー", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Food_C_Action = PostbackAction("コンビニ", "コンビニ", "コンビニ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Food_D_Action = PostbackAction("カフェ", "カフェ", "カフェ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+
+        //　ここをbutton templateに変えたい
+        val foodButtonTemplate = ButtonsTemplate(
+            URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
+            "食費項目", "ひとつ選んでね",
+            null,
+            listOf(
+                Food_A_Action,
+                Food_B_Action,
+                Food_C_Action,
+                Food_D_Action,
+            )
+        )
+
+        when (event?.postback?.data.toString().split("?")[0]) {
+            "A" -> return TemplateMessage("食費の項目は？", foodButtonTemplate)
             "B" -> return TextMessage("BBBB")
             "C" -> return TextMessage("CCCC")
             "D" -> return TextMessage("DDDD")
+            // food_final?price=2000&genre=food&detail=external
+            // [0] : food_final
+            // [1] : price=2000&genre=food&detail=external
+            "food_final" -> {
+                val template = event?.postback?.data.toString().split("?")[1]
+                println(template)
+                // dbに入れる
+                return TextMessage("保存したよ！$template")
+            }
         }
+
+
         return TextMessage("?")
     }
 
@@ -55,7 +97,14 @@ open class QuickCashBookApplication(
             }
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
-            val A_Action = PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val A_Action = PostbackAction(
+                "食費",
+                "A?price=${message.text}&genre=food",
+                "A",
+                null,
+                PostbackAction.InputOption.OPENKEYBOARD,
+                null
+            )
             val B_Action = PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null)
             val C_Action = PostbackAction("生活費", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
             val D_Action = PostbackAction("そのほか", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
