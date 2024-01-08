@@ -32,6 +32,7 @@ open class QuickCashBookApplication(
             "A" -> return TextMessage("AAAA！")
             "B" -> return TextMessage("BBBB")
             "C" -> return TextMessage("CCCC")
+            "D" -> return TextMessage("DDDD")
         }
         return TextMessage("?")
     }
@@ -59,7 +60,8 @@ open class QuickCashBookApplication(
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
             val A_Action = PostbackAction("食費", "A", "A", null, PostbackAction.InputOption.OPENKEYBOARD, null)
             val B_Action = PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null)
-            val C_Action = PostbackAction("通費", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val C_Action = PostbackAction("生活費", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val D_Action = PostbackAction("そのほか", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
 
             //　ここをbutton templateに変えたい
             val buttonTemplate = ButtonsTemplate(
@@ -69,7 +71,8 @@ open class QuickCashBookApplication(
                 listOf(
                     A_Action,
                     B_Action,
-                    C_Action
+                    C_Action,
+                    D_Action,
                 )
             )
 
