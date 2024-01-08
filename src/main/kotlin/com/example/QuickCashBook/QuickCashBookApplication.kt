@@ -51,7 +51,7 @@ open class QuickCashBookApplication(
                 "$originalProposalMessage"
             } else {
                 val numbersOnly = messagesService.extractNumbers(originalMessageText)
-                "$numbersOnly"+"円ですね！"
+                "$numbersOnly" + "円ですね！"
             }
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
@@ -77,7 +77,9 @@ open class QuickCashBookApplication(
                 ReplyMessageRequest(
                     event.replyToken,
                     listOf(TemplateMessage("質問だよ", buttonTemplate)),
-
+                    false
+                )
+            )
         }
     }
 
