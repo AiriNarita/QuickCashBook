@@ -50,8 +50,22 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Food_C_Action = PostbackAction("コンビニ", "コンビニ", "コンビニ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
-        val Food_D_Action = PostbackAction("カフェ", "カフェ", "カフェ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Food_C_Action = PostbackAction(
+            "コンビニ",
+            "food_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=convenience",
+            "コンビニ",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+        val Food_D_Action = PostbackAction(
+            "カフェ",
+            "food_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=cafe",
+            "カフェ",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
 
         val foodButtonTemplate = ButtonsTemplate(
             URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
