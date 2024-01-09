@@ -42,7 +42,14 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Food_B_Action = PostbackAction("スーパー", "スーパー", "スーパー", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Food_B_Action = PostbackAction(
+            "スーパー",
+            "food_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=mart",
+            "スーパー",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
         val Food_C_Action = PostbackAction("コンビニ", "コンビニ", "コンビニ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
         val Food_D_Action = PostbackAction("カフェ", "カフェ", "カフェ", null, PostbackAction.InputOption.OPENKEYBOARD, null)
 
@@ -137,7 +144,14 @@ open class QuickCashBookApplication(
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
             )
-            val B_Action = PostbackAction("交通費", "B", "B", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val B_Action = PostbackAction(
+                "交通費",
+                "B",
+                "B",
+                null,
+                PostbackAction.InputOption.OPENKEYBOARD,
+                null
+            )
             val C_Action = PostbackAction(
                 "生活費(ex.日常用品、消耗品、服)",
                 "C?price=${message.text}&genre=life",
