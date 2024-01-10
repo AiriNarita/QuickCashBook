@@ -87,9 +87,29 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Life_B_Action = PostbackAction("日用消耗品", "日用消耗品", "日用消耗品", null, PostbackAction.InputOption.OPENKEYBOARD, null)
-        val Life_C_Action = PostbackAction("その他", "その他", "その他", null, PostbackAction.InputOption.OPENKEYBOARD, null)
-        val Life_D_Action = PostbackAction("衣類", "衣類", "衣類", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+        val Life_B_Action = PostbackAction(
+            "日用消耗品",
+            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=dairyConsumable",
+            "日用消耗品",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+        val Life_C_Action = PostbackAction(
+            "その他",
+            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=dairyOther",
+            "その他",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null)
+        val Life_D_Action = PostbackAction(
+            "衣類",
+            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=closes",
+            "衣類",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
 
         val lifeButtonTemplate = ButtonsTemplate(
             URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
