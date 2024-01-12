@@ -123,12 +123,48 @@ open class QuickCashBookApplication(
             )
         )
 
+        val Transportation_A_Action = PostbackAction(
+            "バス",
+            "Transportation_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=bus",
+            "バス",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null)
+        val Transportation_B_Action = PostbackAction(
+            "電車",
+            "Transportation_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=train",
+            "電車",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+
+        val Transportation_C_Action = PostbackAction(
+            "その他",
+            "Transportation_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=other",
+            "その他",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+
+        val transportationButtonTemplate = ButtonsTemplate(
+            URI.create("https://任意の画像URL.jpg"), null, "cover", "#000000",
+            "交通費項目", "ひとつ選んでね",
+            null,
+            listOf(
+                Transportation_A_Action,
+                Transportation_B_Action,
+                Transportation_C_Action
+            )
+        )
+
 
         when (event?.postback?.data.toString().split("?")[0]) {
             "A" -> return TemplateMessage("食費の項目は？", foodButtonTemplate)
-            "B" -> return TextMessage("交通費", )
+            "B" -> return TemplateMessage("交通費", transportationButtonTemplate)
             "C" -> return TemplateMessage("生活費は何？",lifeButtonTemplate)
-            "D" -> return TextMessage("DDDD")
+            "D" -> return TextMessage("その他だね！")
             // food_final?price=2000&genre=food&detail=external
             // [0] : food_final
             // [1] : price=2000&genre=food&detail=external
@@ -144,8 +180,13 @@ open class QuickCashBookApplication(
                 // dbに入れる
                 return TextMessage("保存したよ！$template")
             }
+            "Transportation_final"-> {
+                val template = event?.postback?.data.toString().split("?")[1]
+                println(template)
+                // dbに入れる
+                return TextMessage("保存したよ！$template")
+            }
         }
-
 
         return TextMessage("?")
     }
