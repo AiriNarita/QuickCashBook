@@ -201,13 +201,16 @@ open class QuickCashBookApplication(
             val originalProposalMessage = "金額を教えてね"
 
             //TODO: 修復が必要
-            val replyMessage = if (!messagesService.containsNumber(message.text)) {
+             if (!messagesService.containsNumber(message.text)) {
                 // メッセージに数字が含まれていない場合
                 "$originalProposalMessage"
+
             } else {
                 val numbersOnly = messagesService.extractNumbers(originalMessageText)
                 "$numbersOnly" + "円ですね！"
             }
+
+
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
             // ジャンル選択①
