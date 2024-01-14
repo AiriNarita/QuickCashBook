@@ -255,6 +255,14 @@ open class QuickCashBookApplication(
         }
     }
 
+
+    /**
+     * 指定されたテキストメッセージで返信するメソッド
+     * @param replyToken String メッセージの返信先トークン
+     * @param messages List<TextMessage> 送信するテキストメッセージのリスト
+     * @param notificationDisabled Boolean 通知を無効にするかどうかのフラグ
+     */
+
     private fun replyOnlyString(event: MessageEvent, originalProposalMessage: String) {
         messagingApiClient.replyMessage(
             ReplyMessageRequest(
@@ -264,6 +272,13 @@ open class QuickCashBookApplication(
             )
         )
     }
+
+    /**
+     * 指定されたテンプレートメッセージで返信するメソッド
+     * @param replyToken String メッセージの返信先トークン
+     * @param messages List<Message> 送信するメッセージのリスト
+     * @param notificationDisabled Boolean 通知を無効にするかどうかのフラグ
+     */
 
     private fun replyOnlyTemplate(event: MessageEvent, messageList: List<Message>) {
         messagingApiClient.replyMessage(
