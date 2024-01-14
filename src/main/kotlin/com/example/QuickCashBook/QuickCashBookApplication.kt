@@ -204,13 +204,8 @@ open class QuickCashBookApplication(
              if (!messagesService.containsNumber(message.text)) {
                 // メッセージに数字が含まれていない場合
                 "$originalProposalMessage"
-
-            } else {
-                val numbersOnly = messagesService.extractNumbers(originalMessageText)
-                "$numbersOnly" + "円ですね！"
-            }
-
-
+                 return;
+             }
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
             // ジャンル選択①
@@ -255,8 +250,8 @@ open class QuickCashBookApplication(
             messagingApiClient.replyMessage(
                 ReplyMessageRequest(
                     event.replyToken,
-                    listOf(TemplateMessage("質問だよ", buttonTemplate)),
-                    false
+                        listOf(TemplateMessage("質問だよ", buttonTemplate)),
+                        false
                 )
             )
         }
