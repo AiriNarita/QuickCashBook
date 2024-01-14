@@ -44,7 +44,7 @@ open class QuickCashBookApplication(
         )
         val Food_B_Action = PostbackAction(
             "スーパー",
-            "food_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=mart",
+            "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=mart",
             "スーパー",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -52,7 +52,7 @@ open class QuickCashBookApplication(
         )
         val Food_C_Action = PostbackAction(
             "コンビニ",
-            "food_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=convenience",
+            "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=convenience",
             "コンビニ",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -60,7 +60,7 @@ open class QuickCashBookApplication(
         )
         val Food_D_Action = PostbackAction(
             "カフェ",
-            "food_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=cafe",
+            "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=cafe",
             "カフェ",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -80,8 +80,9 @@ open class QuickCashBookApplication(
         )
 
         // food detail button
-        val Life_A_Action = PostbackAction("生活用品",
-            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=needGoods",
+        val Life_A_Action = PostbackAction(
+            "生活用品",
+            "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=needGoods",
             "生活用品(雑貨。ex.さら、キッチン用具)",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -89,7 +90,7 @@ open class QuickCashBookApplication(
         )
         val Life_B_Action = PostbackAction(
             "日用消耗品",
-            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=dairyConsumable",
+            "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=dairyConsumable",
             "日用消耗品",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -97,14 +98,15 @@ open class QuickCashBookApplication(
         )
         val Life_C_Action = PostbackAction(
             "その他",
-            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=dairyOther",
+            "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=dairyOther",
             "その他",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
-            null)
+            null
+        )
         val Life_D_Action = PostbackAction(
             "衣類",
-            "life_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=closes",
+            "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=closes",
             "衣類",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -125,14 +127,15 @@ open class QuickCashBookApplication(
 
         val Transportation_A_Action = PostbackAction(
             "バス",
-            "Transportation_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=bus",
+            "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=bus",
             "バス",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
-            null)
+            null
+        )
         val Transportation_B_Action = PostbackAction(
             "電車",
-            "Transportation_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=train",
+            "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=train",
             "電車",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -141,7 +144,7 @@ open class QuickCashBookApplication(
 
         val Transportation_C_Action = PostbackAction(
             "その他",
-            "Transportation_final?"+event?.postback?.data.toString().split("?")[1] + "&detail=other",
+            "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=other",
             "その他",
             null,
             PostbackAction.InputOption.OPENKEYBOARD,
@@ -163,7 +166,7 @@ open class QuickCashBookApplication(
         when (event?.postback?.data.toString().split("?")[0]) {
             "A" -> return TemplateMessage("食費の項目は？", foodButtonTemplate)
             "B" -> return TemplateMessage("交通費", transportationButtonTemplate)
-            "C" -> return TemplateMessage("生活費は何？",lifeButtonTemplate)
+            "C" -> return TemplateMessage("生活費は何？", lifeButtonTemplate)
             "D" -> return TextMessage("その他だね！")
             // food_final?price=2000&genre=food&detail=external
             // [0] : food_final
@@ -174,13 +177,15 @@ open class QuickCashBookApplication(
                 // dbに入れる
                 return TextMessage("保存したよ！$template")
             }
+
             "life_final" -> {
                 val template = event?.postback?.data.toString().split("?")[1]
                 println(template)
                 // dbに入れる
                 return TextMessage("保存したよ！$template")
             }
-            "Transportation_final"-> {
+
+            "Transportation_final" -> {
                 val template = event?.postback?.data.toString().split("?")[1]
                 println(template)
                 // dbに入れる
@@ -198,14 +203,13 @@ open class QuickCashBookApplication(
         val message = event.message
         if (message is TextMessageContent) {
             val originalMessageText = message.text + "円ですね！"
-            val originalProposalMessage = "金額を教えてね"
 
             //TODO: 修復が必要
-             if (!messagesService.containsNumber(message.text)) {
+            if (!messagesService.containsNumber(message.text)) {
                 // メッセージに数字が含まれていない場合
-                "$originalProposalMessage"
-                 return;
-             }
+                replyOnlyString(event, "金額を教えてね")
+                return;
+            }
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
             // ジャンル選択①
@@ -247,14 +251,28 @@ open class QuickCashBookApplication(
                     D_Action,
                 )
             )
-            messagingApiClient.replyMessage(
-                ReplyMessageRequest(
-                    event.replyToken,
-                        listOf(TemplateMessage("質問だよ", buttonTemplate)),
-                        false
-                )
-            )
+            replyOnlyTemplate(event, listOf(TemplateMessage("質問だよ", buttonTemplate)))
         }
+    }
+
+    private fun replyOnlyString(event: MessageEvent, originalProposalMessage: String) {
+        messagingApiClient.replyMessage(
+            ReplyMessageRequest(
+                event.replyToken,
+                listOf(TextMessage(originalProposalMessage)),
+                false
+            )
+        )
+    }
+
+    private fun replyOnlyTemplate(event: MessageEvent, messageList: List<Message>) {
+        messagingApiClient.replyMessage(
+            ReplyMessageRequest(
+                event.replyToken,
+                messageList,
+                false
+            )
+        )
     }
 
     @EventMapping
