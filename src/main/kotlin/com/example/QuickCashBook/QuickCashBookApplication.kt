@@ -202,9 +202,8 @@ open class QuickCashBookApplication(
         println("event: $event")
         val message = event.message
         if (message is TextMessageContent) {
-            val originalMessageText = message.text + "円ですね！"
+            val originalMessageText = message.text
 
-            //TODO: 修復が必要
             if (!messagesService.containsNumber(message.text)) {
                 // メッセージに数字が含まれていない場合
                 replyOnlyString(event, "金額を教えてね")
