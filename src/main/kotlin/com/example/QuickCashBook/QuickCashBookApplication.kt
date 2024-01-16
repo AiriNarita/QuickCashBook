@@ -165,8 +165,8 @@ open class QuickCashBookApplication(
 
         when (event?.postback?.data.toString().split("?")[0]) {
             "食費" -> return TemplateMessage("食費の項目は？", foodButtonTemplate)
-            "B" -> return TemplateMessage("交通費", transportationButtonTemplate)
-            "C" -> return TemplateMessage("生活費は何？", lifeButtonTemplate)
+            "交通費" -> return TemplateMessage("交通費", transportationButtonTemplate)
+            "生活費" -> return TemplateMessage("生活費は何？", lifeButtonTemplate)
             "D" -> return TextMessage("その他だね！")
             // food_final?price=2000&genre=food&detail=external
             // [0] : food_final
@@ -222,16 +222,16 @@ open class QuickCashBookApplication(
             )
             val B_Action = PostbackAction(
                 "交通費",
-                "B?price=${message.text}&genre=transportation",
-                "B",
+                "交通費?price=${message.text}&genre=transportation",
+                "交通費",
                 null,
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
             )
             val C_Action = PostbackAction(
                 "生活費(ex.日常用品、消耗品、服)",
-                "C?price=${message.text}&genre=life",
-                "C",
+                "生活費?price=${message.text}&genre=life",
+                "生活費",
                 null,
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
