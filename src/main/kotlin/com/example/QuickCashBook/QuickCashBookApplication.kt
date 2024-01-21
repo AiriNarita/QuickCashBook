@@ -167,7 +167,7 @@ open class QuickCashBookApplication(
             "食費" -> return TemplateMessage("食費の項目は？", foodButtonTemplate)
             "交通費" -> return TemplateMessage("交通費", transportationButtonTemplate)
             "生活費" -> return TemplateMessage("生活費は何？", lifeButtonTemplate)
-            "D" -> return TextMessage("その他だね！")
+            "その他" -> return TextMessage("その他だね！")
             // food_final?price=2000&genre=food&detail=external
             // [0] : food_final
             // [1] : price=2000&genre=food&detail=external
@@ -236,7 +236,14 @@ open class QuickCashBookApplication(
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
             )
-            val D_Action = PostbackAction("そのほか", "C", "C", null, PostbackAction.InputOption.OPENKEYBOARD, null)
+            val D_Action = PostbackAction(
+                "そのほか",
+                "その他?price=${message.text}&genre=life",
+                "その他",
+                null,
+                PostbackAction.InputOption.OPENKEYBOARD,
+                null
+            )
 
             //　ここをbutton templateに変えたい
             val buttonTemplate = ButtonsTemplate(
