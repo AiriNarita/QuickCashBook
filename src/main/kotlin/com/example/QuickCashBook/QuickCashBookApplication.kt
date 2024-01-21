@@ -212,7 +212,7 @@ open class QuickCashBookApplication(
 
             val numbersOnly = messagesService.extractNumbers(originalMessageText)
             // ジャンル選択①
-            val A_Action = PostbackAction(
+            val Food_Action = PostbackAction(
                 "食費",
                 "食費?price=${message.text}&genre=food",
                 "食費",
@@ -220,7 +220,7 @@ open class QuickCashBookApplication(
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
             )
-            val B_Action = PostbackAction(
+            val Transport_Action = PostbackAction(
                 "交通費",
                 "交通費?price=${message.text}&genre=transportation",
                 "交通費",
@@ -228,7 +228,7 @@ open class QuickCashBookApplication(
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
             )
-            val C_Action = PostbackAction(
+            val Life_Action = PostbackAction(
                 "生活費(ex.日常用品、消耗品、服)",
                 "生活費?price=${message.text}&genre=life",
                 "生活費",
@@ -236,7 +236,7 @@ open class QuickCashBookApplication(
                 PostbackAction.InputOption.OPENKEYBOARD,
                 null
             )
-            val D_Action = PostbackAction(
+            val Other_Action = PostbackAction(
                 "そのほか",
                 "その他?price=${message.text}&genre=life",
                 "その他",
@@ -251,10 +251,10 @@ open class QuickCashBookApplication(
                 "￥" + "$numbersOnly" + "は何のジャンル？", "ひとつ選んでね",
                 null,
                 listOf(
-                    A_Action,
-                    B_Action,
-                    C_Action,
-                    D_Action,
+                    Food_Action,
+                    Transport_Action,
+                    Life_Action,
+                    Other_Action,
                 )
             )
             replyOnlyTemplate(event, listOf(TemplateMessage("質問だよ", buttonTemplate)))
