@@ -34,7 +34,7 @@ open class QuickCashBookApplication(
         // [0] : A
         // [1] : price=2000&genre=food&detail=external
         // result : final?price=2000&genre=food&detail=external
-        val Food_A_Action = PostbackAction(
+        val Food_external_Action = PostbackAction(
             "外食",
             "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=external",
             "外食",
@@ -42,7 +42,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Food_B_Action = PostbackAction(
+        val Food_mart_Action = PostbackAction(
             "スーパー",
             "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=mart",
             "スーパー",
@@ -50,7 +50,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Food_C_Action = PostbackAction(
+        val Food_convenience_Action = PostbackAction(
             "コンビニ",
             "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=convenience",
             "コンビニ",
@@ -58,7 +58,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Food_D_Action = PostbackAction(
+        val Food_cafe_Action = PostbackAction(
             "カフェ",
             "food_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=cafe",
             "カフェ",
@@ -72,10 +72,10 @@ open class QuickCashBookApplication(
             "食費項目", "ひとつ選んでね",
             null,
             listOf(
-                Food_A_Action,
-                Food_B_Action,
-                Food_C_Action,
-                Food_D_Action,
+                Food_external_Action,
+                Food_mart_Action,
+                Food_convenience_Action,
+                Food_cafe_Action,
             )
         )
 
