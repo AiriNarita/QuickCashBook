@@ -80,7 +80,7 @@ open class QuickCashBookApplication(
         )
 
         // food detail button
-        val Life_A_Action = PostbackAction(
+        val Life_needGoods_Action = PostbackAction(
             "生活用品",
             "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=needGoods",
             "生活用品(雑貨。ex.さら、キッチン用具)",
@@ -88,7 +88,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Life_B_Action = PostbackAction(
+        val Life_dairyConsumable_Action = PostbackAction(
             "日用消耗品",
             "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=dairyConsumable",
             "日用消耗品",
@@ -96,7 +96,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Life_C_Action = PostbackAction(
+        val Life_dairyOther_Action = PostbackAction(
             "その他",
             "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=dairyOther",
             "その他",
@@ -104,7 +104,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Life_D_Action = PostbackAction(
+        val Life_closes_Action = PostbackAction(
             "衣類",
             "life_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=closes",
             "衣類",
@@ -118,10 +118,10 @@ open class QuickCashBookApplication(
             "生活費項目", "ひとつ選んでね",
             null,
             listOf(
-                Life_A_Action,
-                Life_B_Action,
-                Life_C_Action,
-                Life_D_Action,
+                Life_needGoods_Action,
+                Life_dairyConsumable_Action,
+                Life_dairyOther_Action,
+                Life_closes_Action,
             )
         )
 
