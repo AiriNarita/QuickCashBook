@@ -125,7 +125,7 @@ open class QuickCashBookApplication(
             )
         )
 
-        val Transportation_A_Action = PostbackAction(
+        val Transportation_Bus_Action = PostbackAction(
             "バス",
             "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=bus",
             "バス",
@@ -133,7 +133,7 @@ open class QuickCashBookApplication(
             PostbackAction.InputOption.OPENKEYBOARD,
             null
         )
-        val Transportation_B_Action = PostbackAction(
+        val Transportation_Train_Action = PostbackAction(
             "電車",
             "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=train",
             "電車",
@@ -142,7 +142,7 @@ open class QuickCashBookApplication(
             null
         )
 
-        val Transportation_C_Action = PostbackAction(
+        val Transportation_Other_Action = PostbackAction(
             "その他",
             "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=other",
             "その他",
@@ -156,9 +156,9 @@ open class QuickCashBookApplication(
             "交通費項目", "ひとつ選んでね",
             null,
             listOf(
-                Transportation_A_Action,
-                Transportation_B_Action,
-                Transportation_C_Action
+                Transportation_Bus_Action,
+                Transportation_Train_Action,
+                Transportation_Other_Action
             )
         )
 
