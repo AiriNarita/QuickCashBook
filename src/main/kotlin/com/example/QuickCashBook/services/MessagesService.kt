@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
+import java.text.Normalizer
 
 @Service
 @Configuration

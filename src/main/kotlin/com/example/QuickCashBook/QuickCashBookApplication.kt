@@ -263,7 +263,7 @@ open class QuickCashBookApplication(
 
 
     /**
-     * 指定されたテキストメッセージで返信するメソッド
+     * 指定された"テキストメッセージ"で返信するメソッド
      * @param replyToken String メッセージの返信先トークン
      * @param messages List<TextMessage> 送信するテキストメッセージのリスト
      * @param notificationDisabled Boolean 通知を無効にするかどうかのフラグ
@@ -280,7 +280,7 @@ open class QuickCashBookApplication(
     }
 
     /**
-     * 指定されたテンプレートメッセージで返信するメソッド
+     * 指定された"テンプレートメッセージ"で返信するメソッド
      * @param replyToken String メッセージの返信先トークン
      * @param messages List<Message> 送信するメッセージのリスト
      * @param notificationDisabled Boolean 通知を無効にするかどうかのフラグ
