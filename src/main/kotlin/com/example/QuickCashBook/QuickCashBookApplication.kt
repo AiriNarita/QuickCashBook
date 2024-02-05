@@ -142,6 +142,15 @@ open class QuickCashBookApplication(
             null
         )
 
+        val Transportation_Car_Action = PostbackAction(
+            "車関連",
+            "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=car",
+            "車関連",
+            null,
+            PostbackAction.InputOption.OPENKEYBOARD,
+            null
+        )
+
         val Transportation_Other_Action = PostbackAction(
             "その他",
             "Transportation_final?" + event?.postback?.data.toString().split("?")[1] + "&detail=other",
@@ -158,6 +167,7 @@ open class QuickCashBookApplication(
             listOf(
                 Transportation_Bus_Action,
                 Transportation_Train_Action,
+                Transportation_Car_Action,
                 Transportation_Other_Action
             )
         )
